@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>토닥플레이 (시안 C)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<style>
+@font-face{font-family:'Pretendard';src:url(../assets/PretendardVariable.woff2) format('woff2-variations');font-weight:45 920;font-display:swap}
+body{margin:0;background:#F6F0E6;color:#4A3322;font-family:"Pretendard",sans-serif;word-break:keep-all;-webkit-font-smoothing:antialiased}
+a{color:#4A3322}a:hover{color:#2E1F14}
+.jua{font-weight:700;letter-spacing:-.02em}
+.paper{background-color:#F6F0E6;background-image:radial-gradient(rgba(120,90,60,.07) 1px,transparent 1.2px),radial-gradient(rgba(120,90,60,.05) 1px,transparent 1.2px);background-size:7px 7px,13px 13px;background-position:0 0,3px 5px}
+.sh{position:absolute;pointer-events:none}
+.sq{border-radius:22px}
+.ci{border-radius:50%}
+.hx{clip-path:polygon(0 0,62% 0,100% 50%,62% 100%,0 100%)}
+.tz{clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
+.in{animation:pop .9s cubic-bezier(.34,1.56,.64,1) both}
+.fl{animation:float 7s ease-in-out infinite}
+.fl2{animation:float2 9s ease-in-out infinite}
+@keyframes pop{from{opacity:0;scale:.4;rotate:-18deg}}
+@keyframes float{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -14px;rotate:4deg}}
+@keyframes float2{0%,100%{translate:0 0;rotate:0deg}50%{translate:10px 8px;rotate:-5deg}}
+.rise{animation:rise .8s cubic-bezier(.2,.75,.25,1) both}
+@keyframes rise{from{opacity:0;translate:0 22px}}
+.d1{animation-delay:.1s}.d2{animation-delay:.22s}.d3{animation-delay:.36s}.d4{animation-delay:.5s}.d5{animation-delay:.64s}.d6{animation-delay:.78s}
+@supports (animation-timeline: view()){.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 5% entry 45%}}
+@keyframes rv{from{opacity:0;translate:0 36px;scale:.98}}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border-radius:14px;text-decoration:none;font-weight:700;font-size:17px;transition:translate .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s,background .2s}
+.btn:hover{translate:0 -3px}
+.btn:active{translate:0 1px;scale:.97}
+.btn-d{background:#5A3A22;color:#FFF8EE;box-shadow:0 4px 0 #3A2414}
+.btn-d:hover{color:#FFF8EE;box-shadow:0 7px 0 #3A2414}
+.btn-l{background:#FFFDF8;color:#4A3322;box-shadow:0 4px 0 #D9C3A6}
+.btn-l:hover{box-shadow:0 7px 0 #D9C3A6}
+.card{transition:translate .35s cubic-bezier(.34,1.56,.64,1),rotate .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.card:hover{translate:0 -6px;rotate:-1deg;box-shadow:0 14px 0 rgba(90,58,34,.10)}
+.wig:hover .dot{animation:wig .5s ease}
+@keyframes wig{25%{rotate:-12deg}75%{rotate:10deg}}
+.nav a{text-decoration:none;transition:color .2s}
+.ul{background-image:linear-gradient(#FFE27A,#FFE27A);background-size:100% 38%;background-position:0 88%;background-repeat:no-repeat;padding:0 4px}
+@media (prefers-reduced-motion:reduce){.in,.fl,.fl2,.rise,.rv{animation:none !important}}
+</style>
+
+<div class="paper" style="min-height: 100vh; overflow-x: hidden">
+<header style="position: relative; z-index: 5">
+  <div style="max-width: 1180px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px">
+    <a href="home.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none">
+      <img src="../assets/logo.png" alt="" style="width: 46px; height: 46px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px #FFFDF8">
+      <span class="jua" style="font-size: 25px; color: #5A3A22">토닥플레이</span>
+    </a>
+    <nav class="nav jua" aria-label="주요 메뉴" style="display: flex; flex-wrap: wrap; align-items: center; gap: 26px; font-size: 19px">
+      <a href="about.html" style="color: #4A3322; ">About Us</a>
+      <a href="programs.html" style="color: #4A3322; ">Our Programs</a>
+      <a class="btn btn-d" href="https://pf.kakao.com/" style="min-height: 46px; font-size: 17px; padding: 0 20px">카카오톡 상담</a>
+    </nav>
+  </div>
+</header>
+
+<section style="position: relative; background: #EBCBA3; margin: 0 16px; border-radius: 40px; overflow: hidden">
+  <span class="sh sq in" aria-hidden="true" style="width: 210px; height: 150px; left: 18%; top: -40px; background: #F48A80; animation-delay: .05s"></span>
+  <span class="sh ci in" aria-hidden="true" style="width: 230px; height: 230px; right: -60px; top: 30px; background: #FFE27A; animation-delay: .15s"></span>
+  <span class="sh hx in" aria-hidden="true" style="width: 150px; height: 210px; left: -20px; top: 170px; background: #82C3EE; animation-delay: .25s"></span>
+  <span class="sh sq in" aria-hidden="true" style="width: 120px; height: 190px; right: -30px; bottom: 120px; background: #F48A80; animation-delay: .35s"></span>
+  <span class="sh ci in" aria-hidden="true" style="width: 190px; height: 190px; left: -50px; bottom: -70px; background: #FFE27A; animation-delay: .45s"></span>
+  <span class="sh tz in" aria-hidden="true" style="width: 260px; height: 120px; left: 46%; bottom: -10px; background: #82C3EE; animation-delay: .55s"></span>
+  <div style="position: relative; max-width: 860px; margin: 0 auto; padding: 130px 24px 160px; text-align: center">
+    <h1 class="jua rise d1" style="margin: 0; font-size: clamp(44px, 6.4vw, 80px); line-height: 1.2; color: #5A3A22">육아 · 놀이 코칭<br>토닥플레이</h1>
+    <p class="rise d2" style="margin: 26px auto 0; font-size: 20px; line-height: 1.8; color: #4A3322">연세대학교 아동가족학과 출신 연구진이 운영합니다.</p>
+    <div class="rise d3" style="margin-top: 38px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center">
+      <a class="btn btn-d" href="programs.html">프로그램 보기</a>
+      <a class="btn btn-l" href="https://pf.kakao.com/">카카오톡 상담</a>
+    </div>
+  </div>
+</section>
+
+<section class="rv" style="max-width: 1180px; margin: 0 auto; padding: 120px 24px 110px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px; align-items: start">
+  <h2 class="jua" style="margin: 0; font-size: 38px; line-height: 1.35; color: #5A3A22">아동발달 연구에 기반한<br>육아 · 놀이 코칭</h2>
+  <div style="font-size: 18px; line-height: 1.95; color: #5B4330">
+    <p style="margin: 0">토닥플레이는 연세대학교 아동가족학과 석·박사 및 연세대학교 어린이생활지도연구원 출신 연구진이 2023년 4월 설립한 육아·놀이 코칭 전문 기업입니다.</p>
+    <p style="margin: 18px 0 0">부모와 교사를 위한 코칭 프로그램을 개발·운영하고, 육아종합지원센터와 문화센터에서 강의를 진행하고 있습니다.</p>
+    <a class="jua" href="about.html" style="display: inline-block; margin-top: 22px; font-size: 19px">소개 더 보기 →</a>
+  </div>
+</section>
+
+<section style="background: #FFFDF8; padding: 100px 24px; position: relative; overflow: hidden">
+  <span class="sh ci fl" aria-hidden="true" style="width: 70px; height: 70px; right: 9%; top: 60px; background: #FFE27A"></span>
+  <span class="sh sq fl2" aria-hidden="true" style="width: 54px; height: 54px; left: 6%; bottom: 70px; background: #82C3EE"></span>
+  <div style="max-width: 1180px; margin: 0 auto">
+    <div class="rv"><h2 class="jua" style="margin: 0; font-size: 38px; line-height: 1.35; color: #5A3A22">상담 주제</h2></div>
+    <div class="rv" style="margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px">
+      <div class="card wig" style="background: #FDE1DD; border-radius: 24px; padding: 28px 24px"><span class="dot ci" style="display: inline-block; width: 28px; height: 28px; background: #F07167"></span><p class="jua" style="margin: 18px 0 0; font-size: 24px">수면</p></div>
+      <div class="card wig" style="background: #DCEEFA; border-radius: 24px; padding: 28px 24px"><span class="dot hx" style="display: inline-block; width: 30px; height: 28px; background: #3E8FC4"></span><p class="jua" style="margin: 18px 0 0; font-size: 24px">기관 적응</p></div>
+      <div class="card wig" style="background: #FFF3C4; border-radius: 24px; padding: 28px 24px"><span class="dot sq" style="display: inline-block; width: 28px; height: 28px; border-radius: 8px; background: #E5B52B"></span><p class="jua" style="margin: 18px 0 0; font-size: 24px">훈육</p></div>
+      <div class="card wig" style="background: #F1E2CE; border-radius: 24px; padding: 28px 24px"><span class="dot tz" style="display: inline-block; width: 34px; height: 26px; background: #B98654"></span><p class="jua" style="margin: 18px 0 0; font-size: 24px">형제 · 또래관계</p></div>
+      <div class="card wig" style="background: #DCEEFA; border-radius: 24px; padding: 28px 24px"><span class="dot ci" style="display: inline-block; width: 28px; height: 28px; background: #3E8FC4"></span><p class="jua" style="margin: 18px 0 0; font-size: 24px">놀이 방법</p></div>
+      <div class="card wig" style="background: #FDE1DD; border-radius: 24px; padding: 28px 24px"><span class="dot sq" style="display: inline-block; width: 28px; height: 28px; border-radius: 8px; background: #F07167"></span><p class="jua" style="margin: 18px 0 0; font-size: 24px">기질 · 발달</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="max-width: 1180px; margin: 0 auto; padding: 110px 24px">
+  <div class="rv"><h2 class="jua" style="margin: 0; font-size: 38px; line-height: 1.35; color: #5A3A22">예약 방법</h2></div>
+  <div class="rv" style="margin-top: 44px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px">
+    <div><div class="jua ci" style="width: 72px; height: 72px; display: grid; place-items: center; background: #F48A80; color: #FFFDF8; font-size: 32px">1</div><h3 class="jua" style="margin: 20px 0 8px; font-size: 24px">스마트스토어 결제</h3><p style="margin: 0; font-size: 16px; line-height: 1.8; color: #6B4A2E">원하는 프로그램을 결제합니다.</p></div>
+    <div><div class="jua hx" style="width: 78px; height: 72px; display: grid; place-items: center; background: #82C3EE; color: #FFFDF8; font-size: 32px; padding-right: 10px; box-sizing: border-box">2</div><h3 class="jua" style="margin: 20px 0 8px; font-size: 24px">카카오톡 채널에서 예약</h3><p style="margin: 0; font-size: 16px; line-height: 1.8; color: #6B4A2E">채널 메뉴의 ‘상담 예약’에서 시간을 선택합니다.</p></div>
+    <div><div class="jua sq" style="width: 72px; height: 72px; display: grid; place-items: center; background: #FFE27A; color: #5A3A22; font-size: 32px">3</div><h3 class="jua" style="margin: 20px 0 8px; font-size: 24px">Zoom 상담</h3><p style="margin: 0; font-size: 16px; line-height: 1.8; color: #6B4A2E">상담 후 리포트를 카카오톡으로 보내드립니다.</p></div>
+  </div>
+</section>
+
+<section style="background: #EBCBA3; padding: 100px 24px; border-radius: 40px; margin: 0 16px">
+  <div style="max-width: 1180px; margin: 0 auto">
+    <div class="rv" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px">
+      <h2 class="jua" style="margin: 0; font-size: 38px; line-height: 1.35; color: #5A3A22">프로그램</h2>
+      <a class="jua" href="programs.html" style="font-size: 19px; text-decoration: none">전체 보기 →</a>
+    </div>
+    <div class="rv" style="margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px">
+      <a class="card" href="programs.html" style="text-decoration: none; background: #FFFDF8; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 12px"><span class="sq" style="width: 48px; height: 48px; background: #F48A80"></span><span class="jua" style="font-size: 25px; line-height: 1.35">온라인 1:1 맞춤형<br>육아 · 놀이 코칭</span><span style="font-size: 16px; color: #6B4A2E">30분 · 50분 · 90분 · 2주 · 3주</span><span class="jua" style="margin-top: 6px; font-size: 20px; color: #C24E43">[가격]</span></a>
+      <a class="card" href="programs.html" style="text-decoration: none; background: #FFFDF8; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 12px"><span class="ci" style="width: 48px; height: 48px; background: #82C3EE"></span><span class="jua" style="font-size: 25px; line-height: 1.35">가정 내<br>놀이환경 점검</span><span class="jua" style="margin-top: 6px; font-size: 20px; color: #C24E43">[가격]</span></a>
+      <a class="card" href="programs.html" style="text-decoration: none; background: #FFFDF8; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 12px"><span class="hx" style="width: 54px; height: 48px; background: #FFE27A"></span><span class="jua" style="font-size: 25px; line-height: 1.35">놀이 영상<br>분석</span><span class="jua" style="margin-top: 6px; font-size: 20px; color: #C24E43">[가격]</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="rv" style="max-width: 1060px; margin: 0 auto; padding: 120px 24px 100px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+  <div style="position: relative; flex: 0 0 auto; width: 280px; max-width: 100%">
+    <span class="sh ci fl" aria-hidden="true" style="width: 84px; height: 84px; right: -22px; top: -22px; background: #FFE27A"></span>
+    <span class="sh hx fl2" aria-hidden="true" style="width: 66px; height: 60px; left: -20px; bottom: 30px; background: #82C3EE"></span>
+    <div style="position: relative; aspect-ratio: 4 / 5; border-radius: 150px 150px 28px 28px; background: #F1E2CE; display: grid; place-items: center; color: #6B4A2E; font-size: 15px">[대표님 사진]</div>
+  </div>
+  <div style="flex: 1 1 400px; min-width: 0">
+    <h2 class="jua" style="margin: 0; font-size: 40px; color: #5A3A22">장서연 대표</h2>
+    <p style="margin: 12px 0 0; font-size: 18px; line-height: 1.8; color: #5B4330">연세대학교 아동가족학과 [학위]<br>[주요 경력]</p>
+    <a class="jua" href="about.html" style="display: inline-block; margin-top: 20px; font-size: 19px">소개 더 보기 →</a>
+  </div>
+</section>
+
+<section class="rv" style="max-width: 1180px; margin: 0 auto; padding: 0 24px 110px">
+  <div style="background: #FFFDF8; border-radius: 32px; padding: 52px 32px; text-align: center; position: relative; overflow: hidden">
+    <span class="sh sq fl" aria-hidden="true" style="width: 80px; height: 60px; left: 5%; top: 30px; background: #F48A80"></span>
+    <span class="sh ci fl2" aria-hidden="true" style="width: 64px; height: 64px; right: 7%; bottom: 30px; background: #FFE27A"></span>
+    <h2 class="jua" style="margin: 0; font-size: 38px; line-height: 1.35; color: #5A3A22">후기</h2>
+    <div style="margin: 30px auto 0; max-width: 760px; border: 2px dashed #D9C3A6; border-radius: 20px; padding: 46px 20px; font-size: 15px; color: #7A5638">[스마트스토어 후기 캡처 3~4장]</div>
+    <a class="btn btn-d" href="https://smartstore.naver.com/" style="margin-top: 30px">스마트스토어 후기 보기</a>
+  </div>
+</section>
+<footer style="background: #5A3A22; color: #F3E6D4; padding: 56px 24px 64px; position: relative; overflow: hidden">
+  <span class="sh ci fl" aria-hidden="true" style="width: 140px; height: 140px; right: -70px; top: -90px; background: #FFE27A; opacity: .9"></span>
+  <span class="sh hx fl2" aria-hidden="true" style="width: 90px; height: 80px; right: 140px; bottom: -30px; background: #82C3EE; opacity: .85"></span>
+  <div style="max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 28px; justify-content: space-between; position: relative">
+    <div style="font-size: 15px; line-height: 1.9">
+      <p class="jua" style="margin: 0 0 8px; font-size: 26px; color: #FFF8EE">토닥플레이</p>
+      상호 토닥플레이 · 대표 장서연 · 사업자등록번호 593-02-03051<br>
+      [통신판매업 신고번호] · todakplay_@naver.com
+    </div>
+    <div class="jua" style="display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-start; font-size: 17px">
+      <a href="https://pf.kakao.com/" style="color: #FFF8EE">카카오톡 채널</a>
+      <a href="https://www.instagram.com/todak.todak.mom/" style="color: #FFF8EE">인스타그램</a>
+      <a href="https://smartstore.naver.com/" style="color: #FFF8EE">스마트스토어</a>
+      <a href="about.html" style="color: #FFF8EE">개인정보처리방침</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

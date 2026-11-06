@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>토닥플레이 소개 (시안 C)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<style>
+@font-face{font-family:'Pretendard';src:url(../assets/PretendardVariable.woff2) format('woff2-variations');font-weight:45 920;font-display:swap}
+body{margin:0;background:#F6F0E6;color:#4A3322;font-family:"Pretendard",sans-serif;word-break:keep-all;-webkit-font-smoothing:antialiased}
+a{color:#4A3322}a:hover{color:#2E1F14}
+.jua{font-weight:700;letter-spacing:-.02em}
+.paper{background-color:#F6F0E6;background-image:radial-gradient(rgba(120,90,60,.07) 1px,transparent 1.2px),radial-gradient(rgba(120,90,60,.05) 1px,transparent 1.2px);background-size:7px 7px,13px 13px;background-position:0 0,3px 5px}
+.sh{position:absolute;pointer-events:none}
+.sq{border-radius:22px}
+.ci{border-radius:50%}
+.hx{clip-path:polygon(0 0,62% 0,100% 50%,62% 100%,0 100%)}
+.tz{clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
+.in{animation:pop .9s cubic-bezier(.34,1.56,.64,1) both}
+.fl{animation:float 7s ease-in-out infinite}
+.fl2{animation:float2 9s ease-in-out infinite}
+@keyframes pop{from{opacity:0;scale:.4;rotate:-18deg}}
+@keyframes float{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -14px;rotate:4deg}}
+@keyframes float2{0%,100%{translate:0 0;rotate:0deg}50%{translate:10px 8px;rotate:-5deg}}
+.rise{animation:rise .8s cubic-bezier(.2,.75,.25,1) both}
+@keyframes rise{from{opacity:0;translate:0 22px}}
+.d1{animation-delay:.1s}.d2{animation-delay:.22s}.d3{animation-delay:.36s}.d4{animation-delay:.5s}.d5{animation-delay:.64s}.d6{animation-delay:.78s}
+@supports (animation-timeline: view()){.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 5% entry 45%}}
+@keyframes rv{from{opacity:0;translate:0 36px;scale:.98}}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border-radius:14px;text-decoration:none;font-weight:700;font-size:17px;transition:translate .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s,background .2s}
+.btn:hover{translate:0 -3px}
+.btn:active{translate:0 1px;scale:.97}
+.btn-d{background:#5A3A22;color:#FFF8EE;box-shadow:0 4px 0 #3A2414}
+.btn-d:hover{color:#FFF8EE;box-shadow:0 7px 0 #3A2414}
+.btn-l{background:#FFFDF8;color:#4A3322;box-shadow:0 4px 0 #D9C3A6}
+.btn-l:hover{box-shadow:0 7px 0 #D9C3A6}
+.card{transition:translate .35s cubic-bezier(.34,1.56,.64,1),rotate .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.card:hover{translate:0 -6px;rotate:-1deg;box-shadow:0 14px 0 rgba(90,58,34,.10)}
+.wig:hover .dot{animation:wig .5s ease}
+@keyframes wig{25%{rotate:-12deg}75%{rotate:10deg}}
+.nav a{text-decoration:none;transition:color .2s}
+.ul{background-image:linear-gradient(#FFE27A,#FFE27A);background-size:100% 38%;background-position:0 88%;background-repeat:no-repeat;padding:0 4px}
+@media (prefers-reduced-motion:reduce){.in,.fl,.fl2,.rise,.rv{animation:none !important}}
+</style>
+
+<div class="paper" style="min-height: 100vh; overflow-x: hidden">
+<header style="position: relative; z-index: 5">
+  <div style="max-width: 1180px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px">
+    <a href="home.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none">
+      <img src="../assets/logo.png" alt="" style="width: 46px; height: 46px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px #FFFDF8">
+      <span class="jua" style="font-size: 25px; color: #5A3A22">토닥플레이</span>
+    </a>
+    <nav class="nav jua" aria-label="주요 메뉴" style="display: flex; flex-wrap: wrap; align-items: center; gap: 26px; font-size: 19px">
+      <a href="about.html" style="color: #4A3322; border-bottom: 3px solid #F07167; padding-bottom: 2px" aria-current="page">About Us</a>
+      <a href="programs.html" style="color: #4A3322; ">Our Programs</a>
+      <a class="btn btn-d" href="https://pf.kakao.com/" style="min-height: 46px; font-size: 17px; padding: 0 20px">카카오톡 상담</a>
+    </nav>
+  </div>
+</header>
+
+<section style="position: relative; max-width: 1180px; margin: 0 auto; padding: 90px 24px 80px">
+  <span class="sh ci in" aria-hidden="true" style="width: 150px; height: 150px; right: 2%; top: 40px; background: #FFE27A"></span>
+  <span class="sh sq in" aria-hidden="true" style="width: 90px; height: 70px; right: 17%; top: 170px; background: #F48A80; animation-delay: .15s"></span>
+  <span class="sh hx in" aria-hidden="true" style="width: 70px; height: 90px; right: 5%; top: 230px; background: #82C3EE; animation-delay: .3s"></span>
+  <div style="position: relative; max-width: 760px">
+    <h1 class="jua rise d1" style="margin: 0; font-size: clamp(40px, 5vw, 62px); color: #5A3A22">토닥플레이 소개</h1>
+    <div class="rise d2" style="margin-top: 32px; font-size: 18px; line-height: 1.95; color: #5B4330">
+      <p style="margin: 0">토닥플레이는 연세대학교 아동가족학과 석·박사 및 연세대학교 어린이생활지도연구원 출신 연구진이 설립한 육아·놀이 코칭 전문 기업입니다.</p>
+      <p style="margin: 18px 0 0">최신 아동발달 연구를 바탕으로 부모와 교사를 위한 체계적인 육아 및 놀이 코칭 솔루션을 개발·운영하며, 과학적 근거 기반의 실용적인 프로그램을 제공합니다.</p>
+      <p style="margin: 18px 0 0">토닥플레이는 영유아의 전인적 발달을 지원하기 위해 가정, 교육기관, 지역사회와 연계한 맞춤형 프로그램을 연구·개발하며, 부모와 교사가 아이의 성장 과정에서 핵심적인 역할을 수행할 수 있도록 돕습니다.</p>
+    </div>
+  </div>
+</section>
+
+<section style="background: #FFFDF8; padding: 90px 24px; border-radius: 40px; margin: 0 16px">
+  <div class="rv" style="max-width: 1060px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 52px; align-items: center">
+    <div style="position: relative; flex: 0 0 auto; width: 280px; max-width: 100%">
+      <span class="sh ci fl" aria-hidden="true" style="width: 76px; height: 76px; left: -22px; top: -18px; background: #F48A80"></span>
+      <div style="position: relative; aspect-ratio: 4 / 5; border-radius: 28px 150px 28px 28px; background: #F1E2CE; display: grid; place-items: center; color: #6B4A2E; font-size: 15px">[대표님 프로필 사진]</div>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0">
+      <h2 class="jua" style="margin: 0; font-size: 42px; color: #5A3A22">장서연 대표</h2>
+      <dl style="margin: 28px 0 0; display: grid; grid-template-columns: 90px 1fr; gap: 14px 20px; font-size: 17px; line-height: 1.6">
+        <dt class="jua" style="color: #8A5A36">학력</dt><dd style="margin: 0">연세대학교 아동가족학과 [학위]</dd>
+        <dt class="jua" style="color: #8A5A36">경력</dt><dd style="margin: 0">[주요 경력]</dd>
+        <dt class="jua" style="color: #8A5A36">활동</dt><dd style="margin: 0">토닥플레이 전자책 · 인스타그램 <a href="https://www.instagram.com/todak.todak.mom/">@todak.todak.mom</a></dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section style="max-width: 1180px; margin: 0 auto; padding: 110px 24px 40px">
+  <div class="rv"><h2 class="jua" style="margin: 0; font-size: 38px; line-height: 1.35; color: #5A3A22">주요 사업 및 프로그램</h2></div>
+  <div style="margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px">
+    <div class="card rv" style="background: #FDE1DD; border-radius: 28px; padding: 34px 32px">
+      <div style="display: flex; align-items: center; gap: 14px"><span class="sq" style="display: inline-block; width: 38px; height: 38px; background: #F07167"></span><h3 class="jua" style="margin: 0; font-size: 28px">부모교육</h3></div>
+      <ul style="margin: 22px 0 0; padding: 0; list-style: none; font-size: 17px; line-height: 1.6"><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">온라인 1:1 맞춤형 육아 · 놀이 코칭 (30분 / 50분 / 90분 / 2주 / 3주)</li><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">가정 내 놀이환경 점검 프로그램</li><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">놀이 영상 분석 프로그램</li><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">소그룹 놀이 컨설팅 프로그램 (We can play!)</li><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">부모 대상 특강 및 워크숍</li></ul>
+    </div>
+    <div class="card rv" style="background: #DCEEFA; border-radius: 28px; padding: 34px 32px">
+      <div style="display: flex; align-items: center; gap: 14px"><span class="ci" style="display: inline-block; width: 38px; height: 38px; background: #3E8FC4"></span><h3 class="jua" style="margin: 0; font-size: 28px">교사교육</h3></div>
+      <ul style="margin: 22px 0 0; padding: 0; list-style: none; font-size: 17px; line-height: 1.6"><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">교사 아카데미 프로그램 (4회기)</li><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">육아종합지원센터 교사 교육 및 연구 참여</li><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">어린이집 · 유치원 교사 연수 및 워크숍</li><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">소그룹 교사 컨설팅 프로그램</li></ul>
+    </div>
+    <div class="card rv" style="background: #FFF3C4; border-radius: 28px; padding: 34px 32px">
+      <div style="display: flex; align-items: center; gap: 14px"><span class="hx" style="display: inline-block; width: 38px; height: 38px; background: #E5B52B"></span><h3 class="jua" style="margin: 0; font-size: 28px">지역사회 연계</h3></div>
+      <ul style="margin: 22px 0 0; padding: 0; list-style: none; font-size: 17px; line-height: 1.6"><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">육아종합지원센터 · 가족센터 · 아동보호기관 등 지역센터와 협업</li><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">영유아 관련 교구회사와 프로그램 개발</li><li style="padding: 12px 0; border-top: 1px dashed rgba(90,58,34,.22)">신세계 · 롯데 · AK 등 문화센터 협력 강의 및 프로그램 운영</li></ul>
+    </div>
+  </div>
+</section>
+
+<section style="max-width: 1180px; margin: 0 auto; padding: 80px 24px 120px">
+  <div class="rv"><h2 class="jua" style="margin: 0; font-size: 38px; line-height: 1.35; color: #5A3A22">부모 &amp; 교사교육 특강 주제</h2></div>
+  <ul class="rv" style="margin: 30px 0 0; padding: 0; list-style: none; columns: 3 260px; column-gap: 40px; font-size: 18px"><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">아이의 미래를 바꾸는 놀이육아</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">기질에 맞는 육아</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">쉽고 올바른 훈육</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">우리집 놀이환경 괜찮나요?</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">책육아 제대로 알고하자</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">문해력 발달을 돕는 놀이</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">수과학적 사고의 발달</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">또래관계의 비밀</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">창의력 발달을 돕는 상상놀이</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">세상을 표현하는 블록놀이</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">사고를 확장하는 놀이상호작용</li><li style="padding: 14px 0; border-top: 1px dashed rgba(90,58,34,.22)">놀이지능</li></ul>
+</section>
+<footer style="background: #5A3A22; color: #F3E6D4; padding: 56px 24px 64px; position: relative; overflow: hidden">
+  <span class="sh ci fl" aria-hidden="true" style="width: 140px; height: 140px; right: -70px; top: -90px; background: #FFE27A; opacity: .9"></span>
+  <span class="sh hx fl2" aria-hidden="true" style="width: 90px; height: 80px; right: 140px; bottom: -30px; background: #82C3EE; opacity: .85"></span>
+  <div style="max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 28px; justify-content: space-between; position: relative">
+    <div style="font-size: 15px; line-height: 1.9">
+      <p class="jua" style="margin: 0 0 8px; font-size: 26px; color: #FFF8EE">토닥플레이</p>
+      상호 토닥플레이 · 대표 장서연 · 사업자등록번호 593-02-03051<br>
+      [통신판매업 신고번호] · todakplay_@naver.com
+    </div>
+    <div class="jua" style="display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-start; font-size: 17px">
+      <a href="https://pf.kakao.com/" style="color: #FFF8EE">카카오톡 채널</a>
+      <a href="https://www.instagram.com/todak.todak.mom/" style="color: #FFF8EE">인스타그램</a>
+      <a href="https://smartstore.naver.com/" style="color: #FFF8EE">스마트스토어</a>
+      <a href="about.html" style="color: #FFF8EE">개인정보처리방침</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>
