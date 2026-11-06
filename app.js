@@ -241,13 +241,25 @@
   async function submit() {
     const err = $('err');
     next.disabled = true; next.textContent = '보내는 중…'; err.innerHTML = '';
+    const picked = (p) => p.items.filter((it) => A.items[it.id]).map((it) => it.t);
     const payload = {
       token: CFG.SUBMIT_TOKEN || '',
+      surveyId: S.id,
       clientId: st.clientId,
-      submittedAt: new Date().toISOString(),
-      ua: navigator.userAgent,
-      answers: { ...A, items: undefined },
-      items: S.pages.flatMap((p) => p.items.map((it) => ({ page: p.name, id: it.id, title: it.t, need: it.need, selected: !!A.items[it.id] })))
+      fields: {
+        '선택 항목 수': Object.values(A.items).filter(Boolean).length,
+        ...Object.fromEntries(S.pages.map((p) => [p.name, picked(p)])),
+        '추가 내용': A.contentExtra,
+        '디자인 시안': A.design,
+        '시안 메모': A.designNote,
+        '좋은 요소': A.likes,
+        '움직임': A.motion,
+        '보유 사진': A.photos,
+        '참고 사이트': A.refs,
+        '피할 느낌': A.avoid,
+        userAgent: navigator.userAgent
+      },
+      details: S.pages.flatMap((p) => p.items.map((it) => ({ '페이지': p.name, '항목 ID': it.id, '항목': it.t, '준비 자료': it.need, '선택': !!A.items[it.id] })))
     };
     const local = /^(localhost|127\.0\.0\.1|)$/.test(location.hostname);
     try {

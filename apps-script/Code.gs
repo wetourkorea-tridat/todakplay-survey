@@ -1,62 +1,64 @@
-// 토닥플레이 홈페이지 구성 설문 → Google Sheets
-// 1) SHARED_TOKEN을 랜덤 문자열로 바꾸고 config.js의 SUBMIT_TOKEN과 맞추기
-// 2) setup 실행 → 3) 웹 앱으로 배포 (README 참고)
+// todakplay survey response — 설문 공용 수집기
+// 설문마다 surveyId 이름의 탭이 생기고, 열은 받은 fields 이름대로 자동으로 만든다.
+// 그래서 새 설문을 만들어도 이 코드는 고치거나 다시 배포하지 않아도 된다.
 
 const SHARED_TOKEN = 'CHANGE_ME';
-
-const RESP_HEAD = ['받은 시각', '제출 시각', 'clientId', '선택 항목 수', '메인', '소개', '프로그램', '공통', '추가 내용',
-  '디자인 시안', '시안 메모', '좋은 요소', '움직임', '보유 사진', '참고 사이트', '피할 느낌', 'userAgent'];
-const ITEM_HEAD = ['받은 시각', 'clientId', '페이지', '항목 ID', '항목', '준비 자료', '선택'];
-
-function setup() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const resp = sheet_(ss, 'Responses', RESP_HEAD);
-  const items = sheet_(ss, 'Items', ITEM_HEAD);
-  const sum = ss.getSheetByName('Summary') || ss.insertSheet('Summary');
-  sum.clear();
-  sum.getRange('A1:B1').setValues([['응답 수', '=MAX(0,COUNTA(Responses!A:A)-1)']]);
-  sum.getRange('A2:B2').setValues([['최근 응답', '=IFERROR(INDEX(Responses!A:A,COUNTA(Responses!A:A)),"")']]);
-  sum.getRange('A4').setValue('최근 응답 기준 선택 항목 (Items 탭에서 마지막 clientId 필터)');
-  sum.getRange('A5').setFormula('=IFERROR(QUERY(Items!A:G,"select C,E,F where B = \'"&INDEX(Responses!C:C,COUNTA(Responses!C:C))&"\' and G = TRUE order by C",1),"")');
-  [resp, items, sum].forEach((s) => s.setFrozenRows(1));
-  sum.getRange('A1:A2').setFontWeight('bold');
-}
-
-function sheet_(ss, name, head) {
-  const s = ss.getSheetByName(name) || ss.insertSheet(name);
-  if (s.getMaxColumns() < head.length) s.insertColumnsAfter(s.getMaxColumns(), head.length - s.getMaxColumns());
-  s.getRange(1, 1, 1, head.length).setValues([head]).setFontWeight('bold');
-  return s;
-}
+const NOTIFY_TO = 'wetourkorea@gmail.com';
 
 function doPost(e) {
   try {
     const p = JSON.parse(e.postData.contents);
     if (p.token !== SHARED_TOKEN) return json_({ ok: false, error: 'invalid token' });
+    if (!p.surveyId || !p.fields) return json_({ ok: false, error: 'missing surveyId or fields' });
+    const now = new Date();
     const lock = LockService.getScriptLock(); lock.waitLock(10000);
     try {
       const ss = SpreadsheetApp.getActiveSpreadsheet();
-      const now = new Date(), a = p.answers || {}, items = p.items || [];
-      const byPage = (name) => items.filter((x) => x.page === name && x.selected).map((x) => x.title).join(', ');
-      ss.getSheetByName('Responses').appendRow([now, p.submittedAt, p.clientId, items.filter((x) => x.selected).length,
-        byPage('메인 페이지'), byPage('소개 페이지'), byPage('프로그램 페이지'), byPage('공통'), a.contentExtra || '',
-        a.design || '', a.designNote || '', (a.likes || []).join(', '), a.motion || '', (a.photos || []).join(', '),
-        a.refs || '', a.avoid || '', p.ua || '']);
-      const rows = items.map((x) => [now, p.clientId, x.page, x.id, x.title, x.need, !!x.selected]);
-      if (rows.length) {
-        const sh = ss.getSheetByName('Items');
-        sh.getRange(sh.getLastRow() + 1, 1, rows.length, ITEM_HEAD.length).setValues(rows);
+      append_(ss, p.surveyId, [{ '받은 시각': now, clientId: p.clientId, ...p.fields }]);
+      if (p.details && p.details.length) {
+        append_(ss, p.surveyId + ' 상세', p.details.map((d) => ({ '받은 시각': now, clientId: p.clientId, ...d })));
       }
     } finally { lock.releaseLock(); }
+    notify_(p, now);
     return json_({ ok: true });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
   }
 }
 
+// 처음 보는 열 이름은 오른쪽 끝에 추가한다.
+function append_(ss, name, objs) {
+  const sh = ss.getSheetByName(name) || ss.insertSheet(name);
+  let head = sh.getLastColumn() ? sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0] : [];
+  const added = [];
+  objs.forEach((o) => Object.keys(o).forEach((k) => { if (!head.includes(k) && !added.includes(k)) added.push(k); }));
+  if (added.length) {
+    if (sh.getMaxColumns() < head.length + added.length) sh.insertColumnsAfter(sh.getMaxColumns(), head.length + added.length - sh.getMaxColumns());
+    sh.getRange(1, head.length + 1, 1, added.length).setValues([added]).setFontWeight('bold');
+    head = head.concat(added);
+    sh.setFrozenRows(1);
+  }
+  const rows = objs.map((o) => head.map((k) => cell_(o[k])));
+  sh.getRange(sh.getLastRow() + 1, 1, rows.length, head.length).setValues(rows);
+}
+
+function cell_(v) {
+  if (v === undefined || v === null) return '';
+  if (Array.isArray(v)) return v.join(', ');
+  return v;
+}
+
+function notify_(p, now) {
+  const body = Object.keys(p.fields).map((k) => `■ ${k}\n${cell_(p.fields[k]) || '-'}`).join('\n\n');
+  MailApp.sendEmail(NOTIFY_TO, `[설문 응답] ${p.surveyId}`,
+    `${Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd HH:mm')} 응답이 들어왔습니다.\n\n${body}\n\n시트: ${SpreadsheetApp.getActiveSpreadsheet().getUrl()}`);
+}
+
+// 권한 허용 + 동작 확인용. 실행 후 생긴 TEST 탭은 지우면 된다.
 function testInsert() {
-  doPost({ postData: { contents: JSON.stringify({ token: SHARED_TOKEN, clientId: 'TEST', submittedAt: new Date().toISOString(),
-    answers: { design: 'D', likes: ['넓은 여백'] }, items: [{ page: '메인 페이지', id: 'm1', title: '대표 사진과 한 줄 소개', need: '사진', selected: true }] }) } });
+  doPost({ postData: { contents: JSON.stringify({ token: SHARED_TOKEN, surveyId: 'TEST', clientId: 'test',
+    fields: { '디자인 시안': 'D', '좋은 요소': ['넓은 여백', '큰 제목'] },
+    details: [{ '항목': '대표 사진', '선택': true }] }) } });
 }
 
 function json_(o) {
