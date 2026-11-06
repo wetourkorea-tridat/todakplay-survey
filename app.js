@@ -49,9 +49,9 @@
         </div>
         <h1 class="title">${lines('홈페이지에 담을 내용과\n디자인을 골라 주세요')}</h1>
         <div class="letter">
-          <p data-m>안녕하세요, 대표님. 트라이댓 한진규입니다.</p>
-          <p data-m>홈페이지 제작을 시작하기 전에, 넣을 내용과 디자인 방향을 정하려고 합니다. 항목을 고르기만 하시면 되고, 필요한 자료는 그다음에 따로 받겠습니다.</p>
-          <p data-m>고르신 내용 중 글 · 사진 · 프로그램은 오픈 후에도 관리 화면에서 직접 바꾸실 수 있습니다.</p>
+          <p data-m>안녕하세요! 한진규입니다.<br>홈페이지 제작을 시작하기 전에, 넣을 내용과 디자인 방향을 정하려고 합니다. 항목을 고르기만 하시면 되고, 필요한 자료는 그다음에 카톡이나 이메일로 받겠습니다.</p>
+          <p data-m>고르신 내용은 초안과 데모 버전의 틀을 잡는 데 쓰입니다. 이후에 바꾸고 싶은 부분이 생기면 언제든지 말씀해 주세요ㅎㅎ</p>
+          <p data-m>지금 시안은 인스타그램 게시물의 디자인을 참고해 비슷한 느낌으로 만들었습니다. 다른 느낌을 원하시면 디자인 시안 화면에서 "둘 다 아니에요"를 고르고, 원하시는 방향을 메모에 적어 주세요!</p>
         </div>
         <div class="meta" data-m><div><b>구성</b>홈페이지 내용 · 디자인 시안</div><div><b>소요 시간</b>약 5분</div></div>
         <div style="margin-top:32px" data-m><button class="btn btn-primary" type="button" data-act="start">시작하기</button></div>`;
@@ -98,7 +98,7 @@
         const picked = S.pages.map((p) => [p.name, p.items.filter((it) => A.items[it.id]).map((it) => it.t)]);
         const row = (k, v) => `<div class="rv-row" data-m><dt>${esc(k)}</dt><dd>${v ? esc(v) : '<span style="color:var(--muted)">없음</span>'}</dd></div>`;
         const dname = (S.designs.find((d) => d.id === A.design) || {}).name || A.design;
-        return `${head('마지막 확인', '이대로 보내 드릴까요?', '고치고 싶은 부분은 이전 버튼으로 돌아가 수정하실 수 있습니다.')}
+        return `${head('마지막 확인', '이대로 확정할까요?', '고치고 싶은 부분은 이전 버튼으로 돌아가 수정하실 수 있습니다.')}
           <dl class="review">
             ${picked.map(([k, v]) => row(k, v.join(', '))).join('')}
             ${row('추가 내용', A.contentExtra)}
